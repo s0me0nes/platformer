@@ -29,7 +29,7 @@ public class Knight : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidbody = GetComponent<Rigidbody2D>();
 
-        ScoreText.text = _score + "/" + _needScoreToWin;
+        ShowScore();
     }
 
     private void FixedUpdate()
@@ -68,6 +68,11 @@ public class Knight : MonoBehaviour
         }
     }
 
+    private void ShowScore()
+    {
+        ScoreText.text = _score + "/" + _needScoreToWin;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent<Ground>(out Ground ground))
@@ -78,7 +83,7 @@ public class Knight : MonoBehaviour
         else if (collision.gameObject.TryGetComponent<Coin>(out Coin coin))
         {
             _score++;
-            ScoreText.text = _score + "/" + _needScoreToWin;
+            ShowScore();
 
             Destroy(collision.gameObject);
 

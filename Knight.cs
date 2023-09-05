@@ -6,6 +6,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Knight : MonoBehaviour
 {
+    private const string WalkParametrName = "isWalk";
+    private const string JumpParametrName = "isJump";
+
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _speed;
     [SerializeField] private Text ScoreText;
@@ -25,6 +28,7 @@ public class Knight : MonoBehaviour
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidbody = GetComponent<Rigidbody2D>();
+
         ScoreText.text = _score + "/" + _needScoreToWin;
     }
 
@@ -43,14 +47,14 @@ public class Knight : MonoBehaviour
     public void MoveRight(bool isActive)
     {
         _isRightMoving = isActive;
-        _animator.SetBool("isWalk", isActive);
+        _animator.SetBool(WalkParametrName, isActive);
         _spriteRenderer.flipX = false;
     }
 
     public void MoveLeft(bool isActive)
     {
         _isLeftMoving = isActive;
-        _animator.SetBool("isWalk", isActive);
+        _animator.SetBool(WalkParametrName, isActive);
         _spriteRenderer.flipX = true;
     }
 
@@ -58,7 +62,7 @@ public class Knight : MonoBehaviour
     {
         if (_isCanJump)
         {
-            _animator.SetBool("isJump", true);
+            _animator.SetBool(JumpParametrName, true);
             _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
             _isCanJump = false;
         }
@@ -69,7 +73,7 @@ public class Knight : MonoBehaviour
         if (collision.gameObject.TryGetComponent<Ground>(out Ground ground))
         {
             _isCanJump = true;
-            _animator.SetBool("isJump", false);
+            _animator.SetBool(JumpParametrName, false);
         }
         else if (collision.gameObject.TryGetComponent<Coin>(out Coin coin))
         {

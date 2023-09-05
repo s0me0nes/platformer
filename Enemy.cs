@@ -19,7 +19,8 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, _points[_targetPoint].position, _speed * Time.deltaTime);
+        transform.position = 
+        Vector2.MoveTowards(transform.position, _points[_targetPoint].position, _speed * Time.deltaTime);
 
         if (transform.position.x == _points[_targetPoint].position.x)
         {

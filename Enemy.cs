@@ -1,83 +1,44 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    [SerializeField] private float _rightMoveRadius;
-    [SerializeField] private float _leftMoveRadius;
+    [SerializeField] private Transform[] _points;
 
-    private Animator _animator;
     private SpriteRenderer _spriteRenderer;
-    private bool _isLeftMove, _isRightMove;
+    private int _targetPoint;
+    private bool _isRight;
 
     private void Start()
     {
-        _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        var changeDirectionCoroutine = StartCoroutine(RandomChangeDirection());
+        _targetPoint = 0;
     }
 
     private void Update()
     {
-        if (_isLeftMove)
-        {
-            transform.Translate(-_speed * Time.deltaTime, 0, 0);
+        transform.position = Vector2.MoveTowards(transform.position, _points[_targetPoint].position, _speed * Time.deltaTime);
 
-            if (transform.position.x < _leftMoveRadius)
-            {
-                _isLeftMove = false;
-                _animator.SetBool("isWalk", false);
-            }
-        }
-        else if (_isRightMove)
+        if (transform.position.x == _points[_targetPoint].position.x)
         {
-            transform.Translate(_speed * Time.deltaTime, 0, 0);
-
-            if (transform.position.x > _rightMoveRadius)
-            {
-                _isRightMove = false;
-                _animator.SetBool("isWalk", false);
-            }
+            ChangeTargetPoint();
         }
     }
 
-    private IEnumerator RandomChangeDirection()
+    private void ChangeTargetPoint()
     {
-        var waitSecond = new WaitForSeconds(1f);
-        int random;
-        int minRandomValue = 0;
-        int maxRadomValue = 3;
-
-        while (true)
+        if (_targetPoint >= _points.Length - 1)
         {
-            random = Random.Range(minRandomValue, maxRadomValue);
-
-            if (random == minRandomValue)
-            {
-                _isLeftMove = false;
-                _isRightMove = true;
-
-                _animator.SetBool("isWalk", true);
-                _spriteRenderer.flipX= true;
-            }
-            else if (random == maxRadomValue - 1)
-            {
-                _isRightMove = false;
-                _isLeftMove = true;
-
-                _animator.SetBool("isWalk", true);
-                _spriteRenderer.flipX = false;
-            }
-            else
-            {
-                _isRightMove= false;
-                _isLeftMove = false;
-
-                _animator.SetBool("isWalk", false);
-            }
-
-            yield return waitSecond;
+            _targetPoint = 0;
         }
+        else
+        {
+            _targetPoint++;
+        }
+
+        _isRight = transform.position.x < _points[_targetPoint].position.x;
+        _spriteRenderer.flipX = _isRight;
     }
 }

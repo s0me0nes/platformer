@@ -1,27 +1,23 @@
-using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-public class Enemy : MonoBehaviour
+[RequireComponent(typeof(CharracterAnimator))]
+public class EnemyAI : MonoBehaviour
 {
-    private const string AttackParametrName = "isAttack";
-
     [SerializeField] private float _speed;
     [SerializeField] private Transform[] _points;
 
+    private CharracterAnimator _charracterAnimator;
     private Transform _playerTarget;
-    private Animator _animator;
 
-    private int _targetPoint;
+    private int _targetPoint = 0;
     private bool _isRight;
     private bool _isMoveToPlayer;
     private bool _isDestinationCompleted;
     private float _localscaleX;
 
-    private void Start()
+    private void Awake()
     {
-        _animator = GetComponent<Animator>();
-        _targetPoint = 0;
+        _charracterAnimator = GetComponent<CharracterAnimator>();
     }
 
     private void Update()
@@ -65,6 +61,8 @@ public class Enemy : MonoBehaviour
 
     private void Flip(Transform lookTarget)
     {
+        if (lookTarget == null) return;
+
         _isRight = transform.position.x < lookTarget.position.x;
         Vector2 shouldLook = transform.localScale;
 
@@ -84,7 +82,7 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out Knight knight))
+        if (collision.TryGetComponent(out PlayerController knight))
         {
             _playerTarget = knight.transform;
             _isMoveToPlayer = true;
@@ -93,7 +91,7 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out Knight knight))
+        if (collision.TryGetComponent(out PlayerController knight))
         {
             _isMoveToPlayer = false;
             Flip(_points[_targetPoint]);
@@ -102,19 +100,19 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out Knight knight))
+        if (collision.gameObject.TryGetComponent(out PlayerController knight))
         {
             _isDestinationCompleted = true;
-            _animator.SetBool(AttackParametrName, true);
+            _charracterAnimator.Attack(true);
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out Knight knight))
+        if (collision.gameObject.TryGetComponent(out PlayerController knight))
         {
             _isDestinationCompleted = false;
-            _animator.SetBool(AttackParametrName, false);
+            _charracterAnimator.Attack(false);
         }
     }
 }

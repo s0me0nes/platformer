@@ -1,29 +1,43 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CharracterAnimator))]
+[RequireComponent(typeof(CharacterAnimator))]
 public class PlayerAttack : MonoBehaviour
 {
-    private CharracterAnimator _characterAnimator;
+    [SerializeField] private float _attackRange = 4;
+    [SerializeField] private LayerMask _enemyMask;
+    [SerializeField] private Transform _attackPoint;
+    [SerializeField] private int _damageForce = 2;
+
+    private CharacterAnimator _characterAnimator;
 
     private void Awake()
     {
-        _characterAnimator = GetComponent<CharracterAnimator>();
+        _characterAnimator = GetComponent<CharacterAnimator>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void Update()
     {
-        if (collision.gameObject.TryGetComponent<EnemyAI>(out EnemyAI enemy))
+        if (Input.GetMouseButtonDown(0))
         {
-            _characterAnimator.Attack(true);
-            Debug.Log("Attack!");
+            Attack();
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void Attack()
     {
-        if (collision.gameObject.TryGetComponent<EnemyAI>(out EnemyAI enemy))
+        if (_attackPoint == null)
+            return;
+
+        _characterAnimator.Attack();
+
+        Collider2D hit = Physics2D.OverlapCircle(_attackPoint.position, _attackRange, _enemyMask);
+
+        if (hit == null)
+            return;
+
+        if (hit.TryGetComponent<IDamageable>(out var damageable))
         {
-            _characterAnimator.Attack(false);
+            damageable.TakeDamage(_damageForce);
         }
     }
 }

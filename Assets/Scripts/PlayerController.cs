@@ -1,78 +1,67 @@
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(CharracterAnimator))]
-[RequireComponent(typeof(PlayerAttack))]
+[RequireComponent(typeof(Ground))]
+[RequireComponent(typeof(CharacterAnimator))]
+[RequireComponent(typeof(ItemCollector))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float _jumpForce;
-    [SerializeField] private float _speed;
+    [SerializeField, Range(0,10)] private float _speed = 2.5f;
+    [SerializeField, Range(0,10)] private float _jumpForce = 7f;
+    
+    private float _moveInput = 0;
+    private Rigidbody2D _rb;
 
-    private CharracterAnimator _characterAnimator;
-    private Rigidbody2D _rigidbody;
-
-    private bool _isLeftMoving, _isRightMoving, _isCanJump;
-    private float _maxMapRadius = 8f;
-    private float _minMapRadius = -8f;
+    private CharacterAnimator _characterAnimator;
+    private Ground _ground;
 
     private void Awake()
     {
-        _characterAnimator = GetComponent<CharracterAnimator>();
-        _rigidbody = GetComponent<Rigidbody2D>();
+        _characterAnimator = GetComponent<CharacterAnimator>();
+        _rb = GetComponent<Rigidbody2D>();
+        _ground = GetComponent<Ground>();
     }
 
     private void FixedUpdate()
     {
-        if (_isRightMoving && transform.position.x < _maxMapRadius)
+        _rb.linearVelocityX = _moveInput * _speed;
+    }
+
+    private void Update()
+    {
+        MoveInput();
+    }
+
+    private void MoveInput()
+    {
+        _moveInput = 0;
+
+        if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(_speed * Time.deltaTime, 0, 0);
+            _moveInput = -1;
         }
-        else if (_isLeftMoving && transform.position.x > _minMapRadius)
+
+        if (Input.GetKey(KeyCode.D))
         {
-            transform.Translate(-_speed * Time.deltaTime, 0, 0);
+            _moveInput = 1;
         }
-    }
 
-    public void MoveRight(bool isActive)
-    {
-        _characterAnimator.Walk(isActive);
-        _isRightMoving = isActive;
-        Flip(1);
-    }
+        _characterAnimator.Walk(_moveInput != 0);
+        _characterAnimator.SetFacing(_moveInput);
 
-
-    public void MoveLeft(bool isActive)
-    {
-        _characterAnimator.Walk(isActive);
-        _isLeftMoving = isActive;
-        Flip(-1);
-    }
-
-    private void Flip(float localScaleX)
-    {
-        Vector2 shouldLook = transform.localScale;
-
-        shouldLook.x = localScaleX;
-        transform.localScale = shouldLook;
-    }
-
-    public void Jump()
-    {
-        if (_isCanJump)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            _characterAnimator.Jump(true);
-            _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-            _isCanJump = false;
+            Jump();
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void Jump()
     {
-        if (collision.gameObject.TryGetComponent<Ground>(out Ground ground))
-        {
-            _isCanJump = true;
-            _characterAnimator.Jump(false);
-        }
+        if (!_ground.IsGrounded())
+            return;
+
+        _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+        _characterAnimator.Jump();
     }
 }

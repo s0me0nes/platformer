@@ -1,74 +1,36 @@
+using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Health : MonoBehaviour, IDamageable
 {
-    [SerializeField] private Text _healthTxt;
+    public int CurrentHealth => _currentHealth;
+    public int MaxHealth => _maxHealth;
 
-    [SerializeField] private Slider _healthSliderNormal;
-    [SerializeField] private Slider _healthSliderSmooth;
+    public event Action<int,int> HealthChanged;
 
-    [SerializeField] private Button _takeDamageBtn;
-    [SerializeField] private Button _healingBtn;
-
-    [SerializeField] private int _maxHealth;
+    [SerializeField] private int _maxHealth = 100;
     [SerializeField] private int _currentHealth;
-    [SerializeField] private float _healthChangeSpeed = 50;
 
-    private int _damageValue = 10;
-
-    private void OnEnable()
-    {
-        _takeDamageBtn.onClick.AddListener(() => TakeDamage(_damageValue));
-
-    }
-
-    private void OnDisable()
-    {
-        _takeDamageBtn.onClick.RemoveAllListeners();
-    }
+    private int _minHealth = 0;
 
     private void Awake()
     {
-        SetHealthCurrentStatus();
-    }
-
-    private void Update()
-    {
-        if (_healthSliderSmooth.value != _currentHealth)
-        {
-            _healthSliderSmooth.value = Mathf.MoveTowards(_healthSliderSmooth.value, _currentHealth, _healthChangeSpeed * Time.deltaTime);
-        }
-    }
-
-    private void SetHealthCurrentStatus()
-    {
         _currentHealth = _maxHealth;
-
-        _healthSliderNormal.maxValue = _maxHealth;
-        _healthSliderSmooth.maxValue = _maxHealth;
-
-        _healthSliderNormal.value = _currentHealth;
-        _healthSliderSmooth.value = _currentHealth;
-
-        ShowCurrentHealth();
     }
 
-    private void ShowCurrentHealth()
+    private void NotifyHealthChanged()
     {
-        _healthSliderNormal.value = _currentHealth;
-        _healthTxt.text = _currentHealth + "/" + _maxHealth;
+        HealthChanged?.Invoke(_currentHealth, _maxHealth);
     }
 
     public void TakeDamage(int damage)
     {
         _currentHealth -= damage;
         
-        ShowCurrentHealth();
+        NotifyHealthChanged();
 
-        if (_currentHealth <= 0)
+        if (_currentHealth <= _minHealth)
         {
-            _healthSliderSmooth.value = 0;
             Destroy(gameObject);
         }
     }
@@ -76,8 +38,8 @@ public class Health : MonoBehaviour, IDamageable
     public void Heal(int value)
     {
         _currentHealth += value;
-        _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth);
+        _currentHealth = Mathf.Clamp(_currentHealth, _minHealth, _maxHealth);
 
-        ShowCurrentHealth();
+        NotifyHealthChanged();
     }
 }

@@ -1181,14 +1181,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ceb5fed7db064f409b038f26eefd781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  _healthTxt: {fileID: 1053370620}
-  _healthSliderNormal: {fileID: 1611660114}
-  _healthSliderSmooth: {fileID: 1165192153}
+  _maxHealth: 0
+  _currentHealth: 0
   _takeDamageBtn: {fileID: 1396711583}
   _healingBtn: {fileID: 1838692746}
-  _maxHealth: 100
-  _currentHealth: 60
-  _healthChangeSpeed: 10
 --- !u!114 &630574282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1812,14 +1808,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ceb5fed7db064f409b038f26eefd781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  _healthTxt: {fileID: 0}
-  _healthSliderNormal: {fileID: 0}
-  _healthSliderSmooth: {fileID: 0}
+  _maxHealth: 0
+  _currentHealth: 0
   _takeDamageBtn: {fileID: 0}
   _healingBtn: {fileID: 0}
-  _maxHealth: 10
-  _currentHealth: 0
-  _healthChangeSpeed: 10
 --- !u!114 &836301629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2987,19 +2979,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1838692747}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 630574281}
-        m_TargetAssemblyTypeName: Health, Assembly-CSharp
-        m_MethodName: Heal
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 10
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1838692747
 MonoBehaviour:
   m_ObjectHideFlags: 0

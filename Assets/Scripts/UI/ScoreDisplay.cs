@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreDisplay : MonoBehaviour // Event
+public class ScoreDisplay : MonoBehaviour
 {
-    [SerializeField] private Text ScoreText;
+    [SerializeField] private Text _scoreText;
 
     private int _needScoreToWin = 5;
     private int _score = 0;
@@ -23,7 +23,7 @@ public class ScoreDisplay : MonoBehaviour // Event
 
     private void Refresh()
     {
-        ScoreText.text = _score + "/" + _needScoreToWin;
+        _scoreText.text = _score + "/" + _needScoreToWin;
     }
 
     private void CheckWin()

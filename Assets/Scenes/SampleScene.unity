@@ -605,6 +605,114 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreDisplay
   ScoreText: {fileID: 1928051128}
+--- !u!1 &508365677
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 508365682}
+  - component: {fileID: 508365680}
+  - component: {fileID: 508365679}
+  - component: {fileID: 508365678}
+  - component: {fileID: 508365684}
+  - component: {fileID: 508365683}
+  m_Layer: 0
+  m_Name: UI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &508365678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508365677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe78811463e67e945ae0420498b9ded2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthTextView
+  _healthTxt: {fileID: 1053370620}
+  _health: {fileID: 630574281}
+--- !u!114 &508365679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508365677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10198fee8e5e9084db42a9f969e6d4f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSmoothSliderView
+  _health: {fileID: 630574281}
+  _slider: {fileID: 1165192153}
+--- !u!114 &508365680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508365677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b34623083e46547acac0fb3cc531b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSliderView
+  _health: {fileID: 630574281}
+  _slider: {fileID: 1611660114}
+--- !u!4 &508365682
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508365677}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.0285, y: -3.63592, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &508365683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508365677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fef8891c5cd4ca4c831a584cfada53b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthDamageButtonView
+  _health: {fileID: 630574281}
+  _button: {fileID: 1396711583}
+  _value: 10
+--- !u!114 &508365684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508365677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a428254284a03784f9c387297eeca185, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthHealButtonView
+  _health: {fileID: 630574281}
+  _button: {fileID: 1838692746}
+  _value: 10
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,6 +1046,7 @@ GameObject:
   - component: {fileID: 630574280}
   - component: {fileID: 630574281}
   - component: {fileID: 630574282}
+  - component: {fileID: 630574283}
   m_Layer: 8
   m_Name: Knight
   m_TagString: Untagged
@@ -1181,10 +1290,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ceb5fed7db064f409b038f26eefd781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  _maxHealth: 0
-  _currentHealth: 0
-  _takeDamageBtn: {fileID: 1396711583}
-  _healingBtn: {fileID: 1838692746}
+  _maxHealth: 100
+  _currentHealth: 100
 --- !u!114 &630574282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1203,6 +1310,19 @@ MonoBehaviour:
     m_Bits: 64
   _attackPoint: {fileID: 1874941028}
   _damageForce: 2
+--- !u!114 &630574283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 630574270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2595edb6318ea244aa24db53e32f3b0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Destroyer
+  _health: {fileID: 630574281}
 --- !u!1 &650660007
 GameObject:
   m_ObjectHideFlags: 0
@@ -1559,6 +1679,7 @@ GameObject:
   - component: {fileID: 836301627}
   - component: {fileID: 836301628}
   - component: {fileID: 836301629}
+  - component: {fileID: 836301630}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -1808,10 +1929,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ceb5fed7db064f409b038f26eefd781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  _maxHealth: 0
-  _currentHealth: 0
-  _takeDamageBtn: {fileID: 0}
-  _healingBtn: {fileID: 0}
+  _maxHealth: 50
+  _currentHealth: 50
 --- !u!114 &836301629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1831,6 +1950,19 @@ MonoBehaviour:
   _searchTimer: 1
   _attackPoint: {fileID: 753878716}
   _searchingRadius: 1
+--- !u!114 &836301630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836301617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2595edb6318ea244aa24db53e32f3b0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Destroyer
+  _health: {fileID: 836301628}
 --- !u!1 &924795206
 GameObject:
   m_ObjectHideFlags: 0
@@ -3576,3 +3708,4 @@ SceneRoots:
   - {fileID: 8015704965307379542}
   - {fileID: 1903153549}
   - {fileID: 156482509}
+  - {fileID: 508365682}

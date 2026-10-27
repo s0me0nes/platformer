@@ -8,6 +8,7 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField] private Coin _coinPrefab;
     [SerializeField] private HealthKit _healthKitPrefab;
     [SerializeField] private float _spawnTime = 2f;
+
     [SerializeField, Range(1, 10)] private int _maxCoinSpawnCount = 5;
     [SerializeField, Range(1, 5)] private int _maxHealthKitSpawnCount = 2;
 
